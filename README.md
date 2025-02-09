@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Code Better - AI-Powered Code Review Platform
+
+## Important Points
+
+- I've made the project in a hurry and didn't really pay attention to my commits, so I decided to just squash them all into one so that you don't get confused.
+
+- I didn't implement mobile responsiveness since Yavor said that it would be enough for the app to work on desktop. (I would've made it responsive anyway but I didn't have enough time)
+
+- I forgot about the requirement to use TRPC and realized too late.
 
 ## Getting Started
 
-First, run the development server:
+To setup the project locally, follow these steps:
+
+1. Clone the repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/genkoph/code-better
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Create an `.env` file in the project root by copying the example file.
 
-## Learn More
+```bash
+cp .env.example .env
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Run migrations to sync the prisma schema with the database
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm prisma migrate deploy
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+5. Run the development server
 
-## Deploy on Vercel
+```bash
+pnpm dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+6. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Key Technical Decisions
+
+- Implemented a chat-like interface to mimic the flow of all popular AI platforms.
+
+- Added a global progress bar to indicate route transitions. This enhancement addresses the issue of the app appearing unresponsive and slow during client-side transitions, providing users with a visual cue that the application is actively processing their requests.
+
+- Utilizing a custom, lightweight UUID generator function that can be used on both the server and client sides.
+
+- Using the `useSWR` hook for data fetching in this application because it provides a simple and efficient way to handle api requests. It automatically handles caching, revalidation, and error handling, which enhances the user experience by ensuring that the data is always up-to-date without requiring manual refreshes.
+
+- Implemented toasts to inform users about errors, as this approach provides a graceful and non-disruptive way to alert them without interrupting their workflow.
+
+- The Monaco code editor was picked because it provides a rich code editing experience with syntax highlighting and IntelliSense which are essential for users submitting code snippets.
+
+- I used Motion (Framer Motion) for animations because it's one of the best React-first animation libraries available. It provides a simple and intuitive API, allowing for smooth and performant animations that enhance the user experience.
+
+- I opted for a flat file structure for the components in this project. Given the small scale of the application, this approach simplifies management and organization, making it easier to locate and modify components as needed.
+
+Due to the small scale of the application, there weren't a lot of significant key technical decisions to be made.
+
+## Limitations
+
+- Not optimized for mobile devices because the Monaco Editor is notoriously difficult to handle when resizing, and I didn't have enough time to address it.
+
+- No authentication is required; once you submit your code, it becomes visible in the sidebar to all other users.
+
+- No input validation is implemented, which could make the application prone to code injection and other security vulnerabilities.
+
+- Currently, there is no implemented functionality to stop the text stream once it has begun.
+
+And the rest of the limitations are the typical ones for a small mvp/demo project, some of them are:
+
+- Bundle size is not optimized for performance.
+
+- There are no automated tests in place.
+
+- The application lacks search engine optimization (SEO).
+
+- The user interface and experience are quite basic and could be improved.
